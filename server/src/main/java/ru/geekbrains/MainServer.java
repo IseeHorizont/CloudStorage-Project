@@ -21,7 +21,7 @@ public class MainServer {
             bootstrap.group(auth, worker).channel(NioServerSocketChannel.class).childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
                 protected void initChannel(SocketChannel channel) throws Exception {
-                    channel.pipeline().addLast(new StringDecoder(), new StringEncoder(), new MainServerHandler());
+                    channel.pipeline().addLast(new StringDecoder(), new StringEncoder(), MainServerHandler.this);
                 }
             });
             ChannelFuture future = bootstrap.bind(8189).sync();
