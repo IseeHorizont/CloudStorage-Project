@@ -8,13 +8,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 
 public class FileHandler extends SimpleChannelInboundHandler<Command> {
 
-    private final String SERVER_DIRECTORY = "MainServer" + File.separator + "src" + File.separator + "Files";//TODO what's this
-    private String serverDirect = "MainServer" + File.separator + "src" + File.separator + "Files";//TODO what's this
+    private final String SERVER_DIRECTORY = "Server" + File.separator + "src" + File.separator + "Files";
+    private String serverDirect = "Server" + File.separator + "src" + File.separator + "Files";
     private static MainServer server;
     private String userName;
     private byte[] buffer = new byte[8189];
@@ -105,18 +107,18 @@ public class FileHandler extends SimpleChannelInboundHandler<Command> {
                     ctx.writeAndFlush(commandFile);
                     SendFileFromStorageToClient sendFileFromCloud = new SendFileFromStorageToClient(fileToSend);
                     sendFileFromCloud.createCommandAndSend(ctx);
-                    Command result = new Command().success("Файл успешно отправлен клиенту!");
+                    Command result = new Command().success("Файл отправлен клиенту");
                     ctx.writeAndFlush(result);
                 }
 
                 else if(fileToSend.isDirectory()){
                     SendDirAndFileFromStorage sendDirWithFilesFromCloud= new SendDirAndFileFromStorage(fileToSend,this);
                     sendDirWithFilesFromCloud.execute(ctx);
-                    Command result = new Command().success("Директория с файлами успешно отправлена клиенту!");
+                    Command result = new Command().success("Директория с файлами отправлена клиенту!");
                     ctx.writeAndFlush(result);
                 }
                 else {
-                    Command commandToClient = new Command().error("Файла не существует!");
+                    Command commandToClient = new Command().error("Файла не существует");
                     ctx.writeAndFlush(commandToClient);
                 }
                 break;
@@ -129,7 +131,7 @@ public class FileHandler extends SimpleChannelInboundHandler<Command> {
                 fileSize = sendFileCommandData.getFileSize();
                 File newFile = new File(serverDirect + File.separator + fileName);
                 if (newFile.exists()) {
-                    Command commandToClient = new Command().error("Файл с таким именем уже есть на сервере!");
+                    Command commandToClient = new Command().error("Файл с таким именем уже есть на сервере");
                     ctx.writeAndFlush(commandToClient);
                 } else {
                     Command commandToClient = new Command().getFileFromServer(fileName);
@@ -183,7 +185,7 @@ public class FileHandler extends SimpleChannelInboundHandler<Command> {
                 if(!file.exists()||(file.exists()&&!file.isDirectory()))
                 {
                     file.mkdir();
-                    Command commandToClient = new Command().success(" Создана директория "+ dirName);
+                    Command commandToClient = new Command().success("Создана директория " + dirName);
                     ctx.writeAndFlush(commandToClient);
                 }
                 else {
@@ -272,7 +274,6 @@ public class FileHandler extends SimpleChannelInboundHandler<Command> {
             }
             case END:{
                 Command commandEndToClient = new Command().closeConnection();
-                //NettyServer.logger.log(Level.INFO,"Получена неизвестная команда END");
                 ctx.writeAndFlush(commandEndToClient);
                 ctx.close();
                 break;
@@ -298,7 +299,10 @@ public class FileHandler extends SimpleChannelInboundHandler<Command> {
                 StringBuilder sb = new StringBuilder();
                 sb.append(file.getName()).append(" ");
                 if (file.isFile()) {
-                    sb.append("[FILE} | ").append(file.length()).append(" bytes.\n");
+                    long modify = file.lastModified();
+                    Date lm = new Date(modify);
+                    String lastModify = new SimpleDateFormat("dd-MM-yyyy").format(lm);
+                    sb.append("[FILE] | ").append(file.length()).append(" bytes | ").append(lastModify + "\n");
                 } else {
                     sb.append("[DIR]\n");
                 }

@@ -3,7 +3,6 @@ package ru.geekbrains;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.effect.Glow;
@@ -216,10 +215,6 @@ public class StorageController implements Initializable {
         network.sendCommand("/ls", this);
     }
 
-    public void deleteCommand(ActionEvent actionEvent) {
-        network.sendCommand("/delete", this);
-    }
-
     private void changeDir(String selectedFile) {
         File file = new File(network.getClientDir());
         if (selectedFile.trim().equals("...")) {
@@ -255,7 +250,7 @@ public class StorageController implements Initializable {
     public void showError(String type, String text) {
         Platform.runLater(() -> {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Ошибка!");
+            alert.setTitle("Error");
             alert.setHeaderText(type);
             alert.setContentText(text);
             alert.showAndWait();
@@ -279,7 +274,7 @@ public class StorageController implements Initializable {
 
     public void sendCommand(ActionEvent mouseEvent) throws IOException {
         if (selectedFile == null) {
-            showError("Команда не может быть выполнена!", "Выберите файл из списка (Мои файлы) и выделите его, щелкнув мышью.");
+            showError("Команда не выполнена", "Выберите файл");
             return;
         }
         String fileName = selectedFile.split(" ")[0];
@@ -289,7 +284,7 @@ public class StorageController implements Initializable {
 
     public void getCommand(ActionEvent actionEvent) throws IOException {
         if (selectedFileOnCloud == null) {
-            showError("Команда не может быть выполнена!", "Выберите файл из списка (Мое облако) и выделите его, щелкнув мышью.");
+            showError("Команда не выполнена", "Выберите файл");
             return;
         }
         String fileName = selectedFileOnCloud.split(" ")[0];
@@ -345,13 +340,12 @@ public class StorageController implements Initializable {
             if (!nameDir.trim().equals("")) {
                 File file = new File(network.getClientDir() + File.separator + nameDir);
                 if (file.exists() && file.isDirectory()) {
-                    showError("Невозможно выполнить операцию!", "Директория с таким именем уже создана!");
+                    showError("Невозможно выполнить операцию", "Директория с таким именем уже создана!");
                 } else {
                     file.mkdir();
-                    showText("Команда выполнена!", "Директория " + nameDir + " создана.");
                 }
             } else {
-                showError("Невозможно выполнить операцию!", "Не указано имя новой директории!");
+                showError("Невозможно выполнить операцию", "Не указано имя новой директории");
             }
         }
         network.sendCommand("/ls", this);
@@ -367,7 +361,7 @@ public class StorageController implements Initializable {
             if (!nameDir.trim().equals("")) {
                 network.sendCommand("/mkdir " + nameDir, this);
             } else {
-                showError("Невозможно выполнить операцию!", "Не указано имя новой директории!");
+                showError("Невозможно выполнить операцию", "Не указано имя новой директории");
             }
         }
         network.sendCommand("/ls", this);
@@ -397,7 +391,7 @@ public class StorageController implements Initializable {
         Scanner scanner = new Scanner(new File("help.txt"));
         StringBuilder sb = new StringBuilder();
         while (scanner.hasNext()) {
-            sb.append(scanner.next()).append(" ");
+            sb.append(scanner.nextLine()).append("\n");
         }
         info.setContentText(sb.toString());
         scanner.close();
@@ -417,5 +411,11 @@ public class StorageController implements Initializable {
         info.setContentText(sb.toString());
         scanner.close();
         info.show();
+    }
+
+    public void exitBtn(ActionEvent actionEvent){
+        Platform.runLater(() ->{
+            System.exit(0);
+        });
     }
 }

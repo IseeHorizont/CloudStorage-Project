@@ -10,12 +10,12 @@
 
 <AnchorPane prefHeight="386.0" prefWidth="499.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.geekbrains.AuthClientController">
     <children>
-        <Label layoutX="92.0" layoutY="60.0" prefHeight="31.0" prefWidth="54.0" text="Login" textFill="#112c8e">
+        <Label layoutX="92.0" layoutY="60.0" prefHeight="31.0" prefWidth="54.0" text="Login">
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <Label layoutX="90.0" layoutY="136.0" prefHeight="31.0" prefWidth="80.0" text="Password" textFill="#122f97">
+        <Label layoutX="90.0" layoutY="136.0" prefHeight="31.0" prefWidth="80.0" text="Password" >
             <font>
                 <Font size="18.0" />
             </font>
@@ -25,7 +25,7 @@
                 <Font size="18.0" />
             </font>
             <tooltip>
-                <Tooltip text="Enter Login" />
+                <Tooltip text="Enter Login (example: user1)" />
             </tooltip>
         </TextField>
         <PasswordField fx:id="passField" layoutX="92.0" layoutY="165.0" onAction="#checkAuth" prefHeight="39.0" prefWidth="316.0">
@@ -33,25 +33,25 @@
                 <Font size="18.0" />
             </font>
             <tooltip>
-                <Tooltip text="Enter password" />
+                <Tooltip text="Enter password (example: pass1)" />
             </tooltip>
         </PasswordField>
-        <Button layoutX="92.0" layoutY="225.0" mnemonicParsing="false" onAction="#checkAuth" prefHeight="40.0" prefWidth="316.0" text="Enter" textFill="#341cd0">
+        <Button layoutX="92.0" layoutY="225.0" mnemonicParsing="false" onAction="#checkAuth" prefHeight="40.0" prefWidth="316.0" text="Enter" >
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button layoutX="95.0" layoutY="320.0" mnemonicParsing="false" onAction="#registerOpen" prefHeight="40.0" prefWidth="310.0" text="Sign up" textFill="#2b1ac3">
+        <Button layoutX="95.0" layoutY="320.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="310.0" text="Sign up" >
             <font>
                 <Font size="18.0" />
             </font>
         </Button>
-      <Label alignment="CENTER" layoutX="78.0" layoutY="14.0" prefHeight="39.0" prefWidth="360.0" text="Welcome to my cloud storage!" textAlignment="CENTER" textFill="#1a17c9">
+      <Label alignment="CENTER" layoutX="78.0" layoutY="14.0" prefHeight="39.0" prefWidth="360.0" text="Welcome to my cloud storage!" textAlignment="CENTER" >
          <font>
             <Font size="24.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="95.0" layoutY="278.0" prefHeight="31.0" prefWidth="310.0" text="Now with us yet? Sign up!" textFill="#030303">
+      <Label alignment="CENTER" layoutX="95.0" layoutY="278.0" prefHeight="31.0" prefWidth="310.0" text="Now with us yet? Sign up!">
          <font>
             <Font size="14.0" />
          </font>

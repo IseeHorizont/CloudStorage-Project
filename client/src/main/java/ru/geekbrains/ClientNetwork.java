@@ -8,7 +8,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ClientNetwork {
     private static final String HOST = "localhost";
@@ -286,7 +288,10 @@ public class ClientNetwork {
                 sb.append(file.getName()).append(" ");
 
                 if (file.isFile()) {
-                    sb.append("[FILE} | ").append(file.length()).append(" bytes.\n");
+                    long modify = file.lastModified();
+                    Date lm = new Date(modify);
+                    String lastModify = new SimpleDateFormat("dd-MM-yyyy").format(lm);
+                    sb.append("[FILE] | ").append(file.length()).append(" bytes | ").append(lastModify + "\n");
 
                 } else {
                     sb.append("[DIR]\n");

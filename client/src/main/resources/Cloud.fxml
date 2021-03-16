@@ -19,7 +19,7 @@
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Exit" />
+                        <MenuItem mnemonicParsing="false" text="Exit" onAction="#exitBtn"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -59,7 +59,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Get file from cloud" />
+                <Tooltip text="Получение файла с сервера" />
             </tooltip>
         </Button>
 
@@ -73,7 +73,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Send file to cloud" />
+                <Tooltip text="Отправка файла на сервер" />
             </tooltip>
         </Button>
 
@@ -86,7 +86,7 @@
                 </ImageView>
             </graphic>
             <tooltip>
-                <Tooltip text="Update files" />
+                <Tooltip text="Обновить списки файлов" />
             </tooltip>
         </Button>
 
@@ -102,7 +102,7 @@
             </font>
         </Label>
 
-      <Button layoutX="397.0" layoutY="383.0" mnemonicParsing="false" onAction="#deleteCommand" onMouseEntered="#changeStyleOnMouseEnterBtnUpdate" onMouseExited="#changeStyleOnMouseExitBtnUpdate" prefHeight="61.0" prefWidth="70.0">
+      <Button layoutX="397.0" layoutY="383.0" mnemonicParsing="false" onMouseEntered="#changeStyleOnMouseEnterBtnUpdate" onMouseExited="#changeStyleOnMouseExitBtnUpdate" prefHeight="61.0" prefWidth="70.0">
          <graphic>
             <ImageView fx:id="deleteBtn" fitHeight="47.0" fitWidth="49.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -111,7 +111,7 @@
             </ImageView>
          </graphic>
          <tooltip>
-            <Tooltip text="Delete files" />
+            <Tooltip text="Удаление" />
          </tooltip>
       </Button>
 

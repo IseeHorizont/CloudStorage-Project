@@ -8,7 +8,6 @@ public class BaseAuthService {
     private Connection connection;
     private PreparedStatement prepStatOfReg;
     private PreparedStatement prepStatAuth;
-    private PreparedStatement prepStatOfChangeNick; //TODO ? not realize
 
     public BaseAuthService(){
         try {
@@ -39,28 +38,28 @@ public class BaseAuthService {
         prepStatAuth = connection.prepareStatement("SELECT * FROM users WHERE login= ? AND password= ?;");
     }
 
-    public String  checkAuth(String login, String pass){
+    public String  checkAuth(String login, String password){
         try {
             statementAuth();
             prepStatAuth.setString(1,login);
-            prepStatAuth.setString(2,pass);
+            prepStatAuth.setString(2,password);
             ResultSet rez = prepStatAuth.executeQuery();
             if (rez.next()) {
-                MainServer.logger.log(Level.FINE,login+ " прошел авторизацию.");
+                MainServer.logger.log(Level.FINE,login + " авторизован");
                 return login;
             }
             else {
                 return null;
             }
         } catch (SQLException ex) {
-            MainServer.logger.log(Level.SEVERE,"DataBase error");
+            MainServer.logger.log(Level.SEVERE,"Ошибка базы данных");
             ex.printStackTrace();
         }
         finally {
             try {
                 prepStatAuth.close();
             } catch (SQLException ex) {
-                MainServer.logger.log(Level.SEVERE,"DataBase error");
+                MainServer.logger.log(Level.SEVERE,"Ошибка базы данных");
                 ex.printStackTrace();
             }
         }

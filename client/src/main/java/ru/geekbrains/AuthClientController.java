@@ -11,8 +11,7 @@ public class AuthClientController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        loginField.setText("user1"); // for testing
-        passField.setText("pass1"); // for testing
+
     }
 
     @FXML
@@ -31,7 +30,7 @@ public class AuthClientController implements Initializable {
             clientApp.showErrorMessage("Поля не должны быть пустыми", "Ошибка ввода");
             return;
         }
-        String authMessage ="/auth "+login+ " "+password;
+        String authMessage ="/auth "+ login + " " + password;
         network.sendCommand(authMessage,clientApp.getStorageController());
 
         try {
@@ -42,11 +41,6 @@ public class AuthClientController implements Initializable {
         if(network.authOk){
             clientApp.showFileMessenger();
         }
-    }
-
-    @FXML
-    private void registerOpen(){
-        //TODO add new users
     }
 
     public void setClientNetwork(ClientNetwork network) {
