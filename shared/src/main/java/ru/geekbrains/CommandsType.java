@@ -1,6 +1,8 @@
 package ru.geekbrains;
 
 public enum CommandsType {
+    REG,
+    REG_OK,
     AUTH,
     AUTH_OK,
     CD,

@@ -10,6 +10,13 @@ public class Command implements Serializable {
     private CommandsType type;
     private Object data;
 
+    public Command regCommand(String login, String password) {
+        Command command = new Command();
+        command.type = CommandsType.REG;
+        command.data = new RegCommandData(login,password);
+        return command;
+    }
+
     public Command authCommand(String login, String password) {
         Command command = new Command();
         command.type = CommandsType.AUTH;
@@ -33,6 +40,13 @@ public class Command implements Serializable {
         Command command= new Command();
         command.type= CommandsType.UNKNOWN;
         command.data= new UnknownCommandData(error);
+        return command;
+    }
+
+    public Command successReg (String login){
+        Command command = new Command();
+        command.type = CommandsType.REG_OK;
+        command.data = new CommandResOk("Успешная регистрация нового пользователя", login);
         return command;
     }
 

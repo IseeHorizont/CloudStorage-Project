@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="538.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.geekbrains.AuthClientController">
+    <children>
+      <Label alignment="TOP_CENTER" layoutX="95.0" layoutY="36.0" prefHeight="39.0" prefWidth="310.0" text="Enter your login and password">
+         <font>
+            <Font size="23.0" />
+         </font>
+      </Label>
+        <Label layoutX="95.0" layoutY="102.0" prefHeight="31.0" prefWidth="54.0" text="Login">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <Label layoutX="95.0" layoutY="185.0" prefHeight="31.0" prefWidth="80.0" text="Password">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Label>
+        <TextField fx:id="newLoginField" layoutX="95.0" layoutY="139.0" prefHeight="39.0" prefWidth="316.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <tooltip>
+                <Tooltip text="Enter your login (for example: user4)" />
+            </tooltip>
+        </TextField>
+        <PasswordField fx:id="newPassField" layoutX="95.0" layoutY="221.0" prefHeight="39.0" prefWidth="316.0">
+            <font>
+                <Font size="18.0" />
+            </font>
+            <tooltip>
+                <Tooltip text="Enter your password (for example: pass4)" />
+            </tooltip>
+        </PasswordField>
+        <Button layoutX="95.0" layoutY="286.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="316.0" text="Registration" onAction="#signUpNewUser">
+            <font>
+                <Font size="18.0" />
+            </font>
+        </Button>
+    </children>
+
+</AnchorPane>

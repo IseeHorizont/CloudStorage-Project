@@ -21,7 +21,7 @@ public class AuthHandler extends SimpleChannelInboundHandler<Command> {
             AuthCommandData authCommand = (AuthCommandData) command.getData();
             String login = authCommand.getLogin();
             String password = authCommand.getPassword();
-            authService = server.getAuthService();
+//            authService = server.getAuthService();
             String successAuth = authService.checkAuth(login, password);
             if (successAuth != null) {
                 ctx.pipeline().remove(AuthHandler.class);
@@ -33,6 +33,21 @@ public class AuthHandler extends SimpleChannelInboundHandler<Command> {
                 ctx.writeAndFlush(errorAuth);
             }
         }
+
+        if(command.getType().equals(CommandsType.REG)){
+            RegCommandData regCommandData = (RegCommandData) command.getData();
+            RegCommandData regCommand = (RegCommandData) command.getData();
+            String login = regCommand.getLogin();
+            String password = regCommand.getPassword();
+            int result = authService.tryToRegister(login, password);
+            if (result != -1) {
+                Command regOK = new Command().successReg(login);
+                ctx.writeAndFlush(regOK);
+            } else {
+                ctx.writeAndFlush("Невозможна регистрация по введенным данным");
+            }
+        }
+
         if (command.getType().equals(CommandsType.END)){
             MainServer.logger.log(Level.INFO,"Получена команда END");
             Command commandEndToClient = new Command().closeConnection();
@@ -48,6 +63,7 @@ public class AuthHandler extends SimpleChannelInboundHandler<Command> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         MainServer.logger.log(Level.INFO,"Сервер запущен");
+        authService = server.getAuthService();
     }
 
     @Override

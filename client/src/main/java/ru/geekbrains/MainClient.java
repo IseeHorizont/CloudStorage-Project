@@ -1,6 +1,7 @@
 package ru.geekbrains;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -49,7 +50,6 @@ public class MainClient extends Application {
         );
     }
 
-
     private void openAuthDialog(Stage primaryStage) throws IOException {
         FXMLLoader authLoader = new FXMLLoader();
         authLoader.setLocation(MainClient.class.getResource("/authorization.fxml"));
@@ -67,7 +67,22 @@ public class MainClient extends Application {
         authStage.setOnCloseRequest(event -> {
             network.sendCommand("/end ", storageController);
         });
+    }
 
+    private void openRegistrationDialog(Stage authLoader) throws IOException {
+        FXMLLoader registerLoader = new FXMLLoader();
+        registerLoader.setLocation(MainClient.class.getResource("/addNewUserForm.fxml"));
+        Parent page = registerLoader.load();
+        registerStage = new Stage();
+        registerStage.setTitle("Регистрация");
+        registerStage.initModality(Modality.WINDOW_MODAL);
+        registerStage.initOwner(authLoader);
+        Scene scene = new Scene(page);
+        registerStage.setScene(scene);
+        registerStage.show();
+        AuthClientController authClientController = registerLoader.getController();
+        authClientController.setClientNetwork(network);
+        authClientController.setClientApp(this);
     }
 
     public void showFileMessenger() {
@@ -87,7 +102,27 @@ public class MainClient extends Application {
         alert.showAndWait();
     }
 
+    public void showMessage(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     public StorageController getStorageController() {
         return storageController;
+    }
+
+    public void showRegisterForm() {
+        Platform.runLater(() ->{
+            try {
+                openRegistrationDialog(authStage);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+    }
+
+    public void closeRegForm() {
+        registerStage.close();
     }
 }

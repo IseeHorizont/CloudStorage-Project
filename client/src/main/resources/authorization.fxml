@@ -41,7 +41,7 @@
                 <Font size="18.0" />
             </font>
         </Button>
-        <Button layoutX="95.0" layoutY="320.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="310.0" text="Sign up" >
+        <Button layoutX="95.0" layoutY="320.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="310.0" text="Sign up" onAction="#signUpBtn">
             <font>
                 <Font size="18.0" />
             </font>

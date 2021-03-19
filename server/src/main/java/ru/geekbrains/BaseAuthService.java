@@ -5,9 +5,9 @@ import java.util.logging.Level;
 
 public class BaseAuthService {
 
-    private Connection connection;
-    private PreparedStatement prepStatOfReg;
+    private static Connection connection;
     private PreparedStatement prepStatAuth;
+    private PreparedStatement prepStatReg;
 
     public BaseAuthService(){
         try {
@@ -30,15 +30,15 @@ public class BaseAuthService {
         }
     }
 
-    public void statementReg() throws SQLException {
-        prepStatOfReg = connection.prepareStatement("INSERT * FROM users WHERE login= ? AND password= ?;");
-    }
-
     public void statementAuth() throws SQLException{
         prepStatAuth = connection.prepareStatement("SELECT * FROM users WHERE login= ? AND password= ?;");
     }
 
-    public String  checkAuth(String login, String password){
+    public void statementReg() throws SQLException{
+        prepStatReg = connection.prepareStatement("INSERT INTO users (login, password) VALUES (?, ?);");
+    }
+
+    public String checkAuth(String login, String password){
         try {
             statementAuth();
             prepStatAuth.setString(1,login);
@@ -64,5 +64,24 @@ public class BaseAuthService {
             }
         }
         return null;
+    }
+
+    public Integer tryToRegister(String login, String password){
+        try {
+            statementReg();
+            prepStatReg.setString(1, login);
+            prepStatReg.setString(2, password);
+            try{
+                int requestRez = prepStatReg.executeUpdate();
+                prepStatReg.close();
+                return requestRez;
+            }catch (SQLException ex){
+                return -1;
+            }
+
+        } catch (SQLException ex) {
+
+        }
+        return -1;
     }
 }

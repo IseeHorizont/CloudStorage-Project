@@ -24,6 +24,7 @@ public class ClientNetwork {
     private static byte[] buffer;
     private static String clientNick;
     public boolean authOk;
+    public boolean regOk;
     private String serverDir;
 
 
@@ -42,6 +43,7 @@ public class ClientNetwork {
             is = new ObjectDecoderInputStream(socket.getInputStream());
             buffer = new byte[BUFFER_SIZE];
             authOk = false;
+            regOk = false;
             return true;
         } catch (IOException e) {
             System.out.println("Соединение не было установлено!");
@@ -64,6 +66,10 @@ public class ClientNetwork {
                             break;
                         }
 
+                        case REG_OK:{
+                            regOk = true;
+                            break;
+                        }
                         case OK: {
                             CommandResOk success = (CommandResOk) message.getData();
                             String result = success.getResult();
@@ -100,8 +106,6 @@ public class ClientNetwork {
                             SendFileToStorage sendFileToCloud = new SendFileToStorage(clientDir + File.separator
                                                                                         + getFile.getFileName(), this);
                             sendFileToCloud.sendFile(os);
-
-
                             break;
                         }
                         case GET_DIR: {
@@ -111,7 +115,6 @@ public class ClientNetwork {
                             File dir = new File(clientDir + File.separator + fileName);
                             SendDirAndFileFromClient dirToSend = new SendDirAndFileFromClient(dir, this);
                             dirToSend.sendDir(os);
-
                             break;
                         }
                         case CREATE: {
@@ -164,6 +167,13 @@ public class ClientNetwork {
                         commandFromClient = new Command().authCommand(login, password);
                         os.writeObject(commandFromClient);
                     }
+                    break;
+                }
+                case "/reg":{
+                    String login = data.split(" ", 2)[0];
+                    String password = data.split(" ", 2)[1];
+                    commandFromClient = new Command().regCommand(login, password);
+                    os.writeObject(commandFromClient);
                     break;
                 }
                 case "/ls": {
